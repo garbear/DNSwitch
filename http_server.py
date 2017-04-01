@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from os.path import isfile, join
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -9,7 +11,7 @@ SERVER_DIR = "http"
 class HTTPHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         file_path = join(SERVER_DIR, self.path.split("/")[-1])
-        if(file_path == SERVER_DIR + "\\"):  #requesting the index page
+        if(file_path == SERVER_DIR + "/"):  #requesting the index page
             print("Sending index page")
             self.send_response(200)
             self.send_header('Content-Type', 'text/html')
@@ -35,6 +37,6 @@ class HTTPHandler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
-with HTTPServer((SERVER_ADDR, SERVER_PORT), HTTPHandler) as httpd:
-    print("Serving on port {}".format(SERVER_PORT))
-    httpd.serve_forever()
+httpd = HTTPServer((SERVER_ADDR, SERVER_PORT), HTTPHandler)
+print("Serving on port {}".format(SERVER_PORT))
+httpd.serve_forever()
